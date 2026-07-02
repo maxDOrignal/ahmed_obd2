@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ahmed_obd2</title>
+    
+    <!-- استدعاء مكتبة Font Awesome لأيقونات النظام والمشاركة فقط -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="icon" type="image/x-icon" href="./logo.png" >
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap');
+        
+        :root {
+            --aliexpress-color: #FF4747;
+            --temu-color: #FF5500;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--card-bg);
+            padding: 15px 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo-link {
+            display: inline-block;
+            text-decoration: none;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .logo-link:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-img {
+            max-height: 60px;
+            width: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            align-items: start; 
+        }
+
+        .product-card {
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(0, 0, 0, 0.02);
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain;
+            background-color: #f1f5f9;
+        }
+
+        .product-info {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .product-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-color);
+            text-align: left;
+        }
+
+        .product-desc-main {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .extra-desc-container {
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .product-desc-extra {
+            display: none;
+            font-size: 13.5px;
+            color: #334155;
+            background-color: #f8fafc; 
+            padding: 14px;
+            border-radius: 12px;
+            border-right: 3px solid #64748b;
+            margin-top: 10px;
+        }
+
+        .product-desc-extra p {
+            margin-bottom: 10px;
+        }
+        .product-desc-extra p:last-child {
+            margin-bottom: 0;
+        }
+
+        .btn-toggle-desc {
+            background: none;
+            border: none;
+            color: #3b82f6;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            padding: 4px 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+
+        .btn-toggle-desc:hover {
+            color: #2563eb;
+        }
+
+        .card-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: auto; 
+        }
+
+        .store-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .store-buttons .btn {
+            flex: 1 1 130px;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px; 
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            border: none;
+            text-align: center;
+        }
+
+        /* تنسيق كلاس أيقونات الـ SVG المجلوبة من ملفاتك لتظهر بمقاس متناسق جداً */
+        .svg-icon {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .btn-aliexpress { background-color: var(--aliexpress-color); color: white; }
+        .btn-aliexpress:hover { background-color: #e03e3e; }
+
+        .btn-temu { background-color: var(--temu-color); color: white; }
+        .btn-temu:hover { background-color: #e64d00; }
+
+        .copy-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .btn-copy-trigger {
+            background-color: #f1f5f9;
+            color: #475569;
+            width: 100%;
+        }
+        .btn-copy-trigger:hover { background-color: #e2e8f0; }
+
+        .copy-dropdown {
+            display: none;
+            position: absolute;
+            bottom: 120%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            padding: 6px;
+        }
+
+        .copy-dropdown button {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            padding: 10px 14px;
+            text-align: right;
+            background: none;
+            border: none;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-color);
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.2s;
+        }
+
+        .copy-dropdown button:hover {
+            background-color: #f8fafc;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background-color: #1e293b;
+            color: white;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            opacity: 0;
+            z-index: 1000;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo-link">
+            <img src="./logo.png" alt="ahmed_obd2" class="logo-img">
+        </a>
+    </header>
+
+    <main class="container">
+        <div class="products-grid">
+            
+            <!-- Xtool A30M start -->
+            <div class="product-card">
+                <img src="./img/a30m/a30m.avif" alt="XTOOL A30M" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">XTOOL A30M</h3>
+                    
+                    <p class="product-desc-main">منظم مكتب متكامل يحتوي على منافذ شحن لاسلكي وإضاءة LED هادئة ومساحات تخزين واسعة.</p>
+                    
+                    <div class="extra-desc-container">
+                        <button class="btn-toggle-desc" onclick="toggleExtraDescription(this)">
+                            <i class="fa-solid fa-circle-info"></i>
+                            <span>عرض التفاصيل والوصف الكامل ▼</span>
+                        </button>
+                        
+                        <div class="product-desc-extra">
+                            <p><strong>مواصفات الحجم والأبعاد:</strong> يأتي المنظم بأبعاد هندسية مدروسة تبلغ 40 سم للعرض و20 سم للعمق.</p>
+                            <p><strong>القدرة والتقنية:</strong> يحتوي الصندوق على لوحة شحن لاسلكي مدمجة تدعم الشحن السريع بقدرة 15 واط.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card-actions">
+                        <div class="store-buttons">
+                            
+                            <!-- زر علي إكسبرس يستدعي ملف الـ svg الخاص بك -->
+                            <a href="https://s.click.aliexpress.com/e/_c3elN0uz" target="_blank" class="btn btn-aliexpress">
+                                <img src="./img/logos/aliexpress-icon.svg" alt="AliExpress" class="svg-icon">
+                                <span>علي إكسبرس</span>
+                            </a>
+                            
+                            <!-- زر تيمو يستدعي ملف الـ svg الخاص بك -->
+                            <a href="https://temu.to/k/e2wqjqi8yx0" target="_blank" class="btn btn-temu">
+                                <img src="./img/logos/temu.svg" alt="Temu" class="svg-icon">
+                                <span>تيمو</span>
+                            </a>
+
+                        </div>
+                        
+                        <div class="copy-wrapper">
+                            <button class="btn btn-copy-trigger" onclick="toggleDropdown(event, this)">
+                                <i class="fa-solid fa-share-nodes"></i> نسخ رابط المنتج...
+                            </button>
+                            
+                            <!-- استدعاء ملفات الـ svg أيضاً داخل القائمة المنسدلة للنسخ -->
+                            <div class="copy-dropdown">
+                                <button onclick="copyLink('https://s.click.aliexpress.com/e/_c3elN0uz', 'رابط علي إكسبرس')">
+                                    <img src="./img/logos/aliexpress-icon.svg" alt="AliExpress" class="svg-icon">
+                                    <span>نسخ رابط علي إكسبرس</span>
+                                </button>
+                                <button onclick="copyLink('https://temu.to/k/e2wqjqi8yx0', 'رابط تيمو')">
+                                    <img src="./img/logos/temu.svg" alt="Temu" class="svg-icon">
+                                    <span>نسخ رابط تيمو</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- A30m end -->
+
+
+            <!-- finrisi dmc 100 start -->
+            <div class="product-card">
+                <img src="./img/finrisi-dmc-100/fnirsi-dmc.jpg" alt="Finrisi DMC 100" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">Finrisi DMC 100</h3>
+                    
+                    <p class="product-desc-main">منظم مكتب متكامل يحتوي على منافذ شحن لاسلكي وإضاءة LED هادئة ومساحات تخزين واسعة.</p>
+                    
+                    <div class="extra-desc-container">
+                        <button class="btn-toggle-desc" onclick="toggleExtraDescription(this)">
+                            <i class="fa-solid fa-circle-info"></i>
+                            <span>عرض التفاصيل والوصف الكامل ▼</span>
+                        </button>
+                        
+                        <div class="product-desc-extra">
+                            <p><strong>مواصفات الحجم والأبعاد:</strong> يأتي المنظم بأبعاد هندسية مدروسة تبلغ 40 سم للعرض و20 سم للعمق.</p>
+                            <p><strong>القدرة والتقنية:</strong> يحتوي الصندوق على لوحة شحن لاسلكي مدمجة تدعم الشحن السريع بقدرة 15 واط.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card-actions">
+                        <div class="store-buttons">
+                            
+                            <!-- زر علي إكسبرس يستدعي ملف الـ svg الخاص بك -->
+                            <a href="https://s.click.aliexpress.com/e/_c3PLYgmh" target="_blank" class="btn btn-aliexpress">
+                                <img src="./img/logos/aliexpress-icon.svg" alt="AliExpress" class="svg-icon">
+                                <span>علي إكسبرس</span>
+                            </a>
+                            
+                            <!-- زر تيمو يستدعي ملف الـ svg الخاص بك -->
+                            <a href="https://temu.to/k/e7zwjph6znv" target="_blank" class="btn btn-temu">
+                                <img src="./img/logos/temu.svg" alt="Temu" class="svg-icon">
+                                <span>تيمو</span>
+                            </a>
+
+                        </div>
+                        
+                        <div class="copy-wrapper">
+                            <button class="btn btn-copy-trigger" onclick="toggleDropdown(event, this)">
+                                <i class="fa-solid fa-share-nodes"></i> نسخ رابط المنتج...
+                            </button>
+                            
+                            <!-- استدعاء ملفات الـ svg أيضاً داخل القائمة المنسدلة للنسخ -->
+                            <div class="copy-dropdown">
+                                <button onclick="copyLink('https://s.click.aliexpress.com/e/_c2I1d4X7', 'رابط علي إكسبرس')">
+                                    <img src="./img/logos/aliexpress-icon.svg" alt="AliExpress" class="svg-icon">
+                                    <span>نسخ رابط علي إكسبرس</span>
+                                </button>
+                                <button onclick="copyLink('https://temu.to/k/e7zwjph6znv', 'رابط تيمو')">
+                                    <img src="./img/logos/temu.svg" alt="Temu" class="svg-icon">
+                                    <span>نسخ رابط تيمو</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- finrisi dmc 100 end -->
+
+             
+
+
+        </div>
+    </main>
+
+    <div id="toast" class="toast">تم نسخ الرابط بنجاح!</div>
+
+    <script>
+        function toggleExtraDescription(button) {
+            const extraDesc = button.nextElementSibling;
+            const buttonText = button.querySelector('span');
+            
+            if (extraDesc.style.display === 'block') {
+                extraDesc.style.display = 'none';
+                buttonText.textContent = 'عرض التفاصيل والوصف الكامل ▼';
+            } else {
+                extraDesc.style.display = 'block';
+                buttonText.textContent = 'إخفاء التفاصيل والوصف الكامل ▲';
+            }
+        }
+
+        function toggleDropdown(event, button) {
+            event.stopPropagation();
+            const currentDropdown = button.nextElementSibling;
+            
+            document.querySelectorAll('.copy-dropdown').forEach(drop => {
+                if (drop !== currentDropdown) drop.style.display = 'none';
+            });
+            
+            if (currentDropdown.style.display === 'block') {
+                currentDropdown.style.display = 'none';
+            } else {
+                currentDropdown.style.display = 'block';
+            }
+        }
+
+        function copyLink(url, text) {
+            navigator.clipboard.writeText(url).then(() => {
+                const toast = document.getElementById('toast');
+                toast.textContent = `تم نسخ ${text} بنجاح!`;
+                toast.classList.add('show');
+                
+                document.querySelectorAll('.copy-dropdown').forEach(drop => drop.style.display = 'none');
+                
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 2500);
+            }).catch(err => {
+                console.error('فشل عملية النسخ: ', err);
+            });
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.closest('.btn-copy-trigger')) {
+                document.querySelectorAll('.copy-dropdown').forEach(drop => drop.style.display = 'none');
+            }
+        }
+    </script>
+</body>
+</html>
