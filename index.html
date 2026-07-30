@@ -280,6 +280,165 @@
             transform: translateX(-50%) translateY(0);
             opacity: 1;
         }
+
+        /* --- Hero Banner Section --- */
+        .hero-section {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: #ffffff;
+            text-align: center;
+            padding: 50px 20px;
+            border-bottom: 3px solid #3b82f6;
+            margin-bottom: 20px;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #ffffff;
+        }
+
+        .hero-title span {
+            color: #3b82f6;
+        }
+
+        .hero-subtitle {
+            font-size: 15px;
+            color: #94a3b8;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .hero-badges {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            color: #cbd5e1;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* --- Footer Section --- */
+        footer {
+            background-color: #0f172a;
+            color: #94a3b8;
+            padding: 40px 20px 20px 20px;
+            margin-top: 60px;
+            border-top: 1px solid #1e293b;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .footer-desc {
+            font-size: 14px;
+            max-width: 600px;
+            color: #64748b;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin: 10px 0;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #1e293b;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 18px;
+        }
+
+        .social-icon:hover {
+            background-color: #3b82f6;
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            width: 100%;
+            border-top: 1px solid #1e293b;
+            padding-top: 20px;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #475569;
+        }
+        /* --- Footer Section --- */
+        footer {
+            background-color: #0f172a;
+            color: #94a3b8;
+            padding: 40px 20px 20px 20px;
+            margin-top: 60px;
+            border-top: 1px solid #1e293b;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            text-align: center;
+        }
+
+        /* تنسيق الشعار */
+        .footer-logo-img {
+            max-width: 150px; /* يمكنك تكبير أو تصغير الحجم من هنا */
+            height: auto;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+        }
+
+        .footer-desc {
+            font-size: 14px;
+            max-width: 600px;
+            color: #64748b;
+            line-height: 1.7;
+        }
+
+        .footer-bottom {
+            width: 100%;
+            border-top: 1px solid #1e293b;
+            padding-top: 20px;
+            margin-top: 10px;
+            font-size: 13px;
+            color: #475569;
+        }
     </style>
 </head>
 <body>
@@ -289,6 +448,21 @@
             <img src="./logo.png" alt="ahmed_obd2" class="logo-img">
         </a>
     </header>
+
+    <!-- Hero Banner Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">دليلك الموثوق لتشخيص و<span>فحص الأعطال</span></h1>
+            <p class="hero-subtitle">
+                نختار لك أفضل أجهزة فحص الأعطال ومعدات الفحص الذكية بعناية. مراجعات دقيقة، روابط شراء مباشرة لأفضل الأسعار، وتوضيح كامل للمميزات قبل الشراء.
+            </p>
+            <div class="hero-badges">
+                <span class="badge"><i class="fa-solid fa-microchip"></i> أجهزة فحص OBD2</span>
+                <span class="badge"><i class="fa-solid fa-check-double"></i> روابط أصلية وموثوقة</span>
+                <span class="badge"><i class="fa-solid fa-bolt"></i> تحديثات مستمرة</span>
+            </div>
+        </div>
+    </section>
 
     <main class="container">
         <div class="products-grid">
@@ -308,14 +482,14 @@
                         </button>
                         
                         <div class="product-desc-extra">
-<p><strong>ماذا يمكن لهذا الجهاز القوي أن يفعل لسيارتك؟</strong></p>
-<p>• <strong>فحص شامل وعميق لكل الأنظمة:</strong> يدعم الفحص الكامل لجميع أجزاء السيارة (المكمنة والكهربائية) وقراءة الرموز بدقة متناهية لضمان سلامة سيارتك بالكامل.</p>
-<p>• <strong>26 وظيفة إعادة ضبط وبرمجة (Reset):</strong> يوفر لك 26 خدمة صيانة مدمجة مثل إعادة ضبط الزيت، نظام مراقبة ضغط الإطارات (TPMS)، معايرة حساس الزاوية (SAS)، وغيرها الكثير دون الحاجة لأدوات إضافية مكلفة.</p>
-<p>• <strong>التحكم الثنائي واختبار الأجزاء النشطة (Bi-directional):</strong> يمنحك القدرة على إرسال أوامر مباشرة لأجزاء السيارة واختبارها في الوقت الفعلي (مثل تشغيل المراوح، النوافذ، أو الطرمبة) للتأكد من سلامتها وتسريع عملية الإصلاح.</p>
-<p>• <strong>تحديثات مجانية مدى الحياة:</strong> لن تدفع أي رسوم اشتراك سنوياً! استمتع بآخر تحديثات برمجية مجاناً للأبد لضمان توافق الجهاز مع الموديلات الحديثة مستقبلاً.</p>
-<p>• <strong>اتصال لاسلكي ودعم لجميع الهواتف:</strong> يعمل بسلاسة عبر البلوتوث مع هواتف الأندرويد (Android) والآيفون (iOS) لتفحص سيارتك وتتحرك بحرية من حولها.</p>
-<p>• <strong>التعرف الذكي والدعم المتطور:</strong> ميزة قراءة رقم الشاسيه تلقائياً (Auto VIN) لسرعة التعرف على نوع السيارة، مع دعم بروتوكولات الحديثة مثل CANFD و FCA للسيارات العصرية المتطورة.</p>
-<p>• <strong>تصميم مدمج وبطارية داخلية:</strong> بوزن 115 غرام فقط وأبعاد صغيرة جداً (10×14 سم) وبطارية مدمجة، يمكنك الاحتفاظ به في درج السيارة ليكون جاهزاً لإنقاذك في أي وقت وأي مكان.</p>                        </div>
+                            <p><strong>ماذا يمكن لهذا الجهاز القوي أن يفعل لسيارتك؟</strong></p>
+                            <p>• <strong>فحص شامل وعميق لكل الأنظمة:</strong> يدعم الفحص الكامل لجميع أجزاء السيارة (المكمنة والكهربائية) وقراءة الرموز بدقة متناهية لضمان سلامة سيارتك بالكامل.</p>
+                            <p>• <strong>26 وظيفة إعادة ضبط وبرمجة (Reset):</strong> يوفر لك 26 خدمة صيانة مدمجة مثل إعادة ضبط الزيت، نظام مراقبة ضغط الإطارات (TPMS)، معايرة حساس الزاوية (SAS)، وغيرها الكثير دون الحاجة لأدوات إضافية مكلفة.</p>
+                            <p>• <strong>التحكم الثنائي واختبار الأجزاء النشطة (Bi-directional):</strong> يمنحك القدرة على إرسال أوامر مباشرة لأجزاء السيارة واختبارها في الوقت الفعلي (مثل تشغيل المراوح، النوافذ، أو الطرمبة) للتأكد من سلامتها وتسريع عملية الإصلاح.</p>
+                            <p>• <strong>تحديثات مجانية مدى الحياة:</strong> لن تدفع أي رسوم اشتراك سنوياً! استمتع بآخر تحديثات برمجية مجاناً للأبد لضمان توافق الجهاز مع الموديلات الحديثة مستقبلاً.</p>
+                            <p>• <strong>اتصال لاسلكي ودعم لجميع الهواتف:</strong> يعمل بسلاسة عبر البلوتوث مع هواتف الأندرويد (Android) والآيفون (iOS) لتفحص سيارتك وتتحرك بحرية من حولها.</p>
+                            <p>• <strong>التعرف الذكي والدعم المتطور:</strong> ميزة قراءة رقم الشاسيه تلقائياً (Auto VIN) لسرعة التعرف على نوع السيارة، مع دعم بروتوكولات الحديثة مثل CANFD و FCA للسيارات العصرية المتطورة.</p>
+                            <p>• <strong>تصميم مدمج وبطارية داخلية:</strong> بوزن 115 غرام فقط وأبعاد صغيرة جداً (10×14 سم) وبطارية مدمجة، يمكنك الاحتفاظ به في درج السيارة ليكون جاهزاً لإنقاذك في أي وقت وأي مكان.</p>                        </div>
                     </div>
                     
                     <div class="card-actions">
@@ -527,13 +701,29 @@
             </div>
             <!-- finrisi dmc 100 end -->
 
-             
-
 
         </div>
     </main>
 
+<!-- Footer Section -->
+    <footer>
+        <div class="footer-container">
+            <!-- الشعار -->
+            <img src="./logo.png" alt="الشعار" class="footer-logo-img">
+            
+            <!-- الوصف -->
+            <p class="footer-desc">
+                منصة متخصصة في استعراض وتقييم أجهزة تشخيص أعطال السيارات ومعدات القياس. هدفنا مساعدتك في اختيار الأداة المناسبة لسيارتك بأفضل قيمة وأعلى جودة.
+            </p>
+
+            <!-- حقوق النشر -->
+            <div class="footer-bottom">
+                &copy; 2026 جميع الحقوق محفوظة.
+            </div>
+        </div>
+    </footer>
     <div id="toast" class="toast">تم نسخ الرابط بنجاح!</div>
+
 
     <script>
         function toggleExtraDescription(button) {
