@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ahmed_obd2</title>
+    
+    <!-- استدعاء مكتبة Font Awesome لأيقونات النظام والمشاركة فقط -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="icon" type="image/x-icon" href="./logo.png" >
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap');
+        
+        :root {
+            --aliexpress-color: #FF4747;
+            --temu-color: #FF5500;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--card-bg);
+            padding: 15px 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo-link {
+            display: inline-block;
+            text-decoration: none;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .logo-link:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-img {
+            max-height: 60px;
+            width: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            align-items: start; 
+        }
+
+        .product-card {
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(0, 0, 0, 0.02);
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain;
+            background-color: #f1f5f9;
+        }
+
+        .product-info {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .product-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-color);
+            text-align: left;
+        }
+
+        .product-desc-main {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .extra-desc-container {
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .product-desc-extra {
+            display: none;
+            font-size: 13.5px;
+            color: #334155;
+            background-color: #f8fafc; 
+            padding: 14px;
+            border-radius: 12px;
+            border-right: 3px solid #64748b;
+            margin-top: 10px;
+        }
+
+        .product-desc-extra p {
+            margin-bottom: 10px;
+        }
+        .product-desc-extra p:last-child {
+            margin-bottom: 0;
+        }
+
+        .btn-toggle-desc {
+            background: none;
+            border: none;
+            color: #3b82f6;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            padding: 4px 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+
+        .btn-toggle-desc:hover {
+            color: #2563eb;
+        }
+
+        .card-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: auto; 
+        }
+
+        .store-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .store-buttons .btn {
+            flex: 1 1 130px;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px; 
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            border: none;
+            text-align: center;
+        }
+
+        /* تنسيق كلاس أيقونات الـ SVG المجلوبة من ملفاتك لتظهر بمقاس متناسق جداً */
+        .svg-icon {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .btn-aliexpress { background-color: var(--aliexpress-color); color: white; }
+        .btn-aliexpress:hover { background-color: #e03e3e; }
+
+        .btn-temu { background-color: var(--temu-color); color: white; }
+        .btn-temu:hover { background-color: #e64d00; }
+
+        .copy-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .btn-copy-trigger {
+            background-color: #f1f5f9;
+            color: #475569;
+            width: 100%;
+        }
+        .btn-copy-trigger:hover { background-color: #e2e8f0; }
+
+        .copy-dropdown {
+            display: none;
+            position: absolute;
+            bottom: 120%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            padding: 6px;
+        }
+
+        .copy-dropdown button {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            padding: 10px 14px;
+            text-align: right;
+            background: none;
+            border: none;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-color);
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.2s;
+        }
+
+        .copy-dropdown button:hover {
+            background-color: #f8fafc;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background-color: #1e293b;
+            color: white;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            opacity: 0;
+            z-index: 1000;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* --- Hero Banner Section --- */
+        .hero-section {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: #ffffff;
+            text-align: center;
+            padding: 50px 20px;
+            border-bottom: 3px solid #3b82f6;
+            margin-bottom: 20px;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #ffffff;
+        }
+
+        .hero-title span {
+            color: #3b82f6;
+        }
+
+        .hero-subtitle {
+            font-size: 15px;
+            color: #94a3b8;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .hero-badges {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            color: #cbd5e1;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* --- Footer Section --- */
+        footer {
+            background-color: #0f172a;
+            color: #94a3b8;
+            padding: 40px 20px 20px 20px;
+            margin-top: 60px;
+            border-top: 1px solid #1e293b;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .footer-desc {
+            font-size: 14px;
+            max-width: 600px;
+            color: #64748b;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin: 10px 0;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #1e293b;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 18px;
+        }
+
+        .social-icon:hover {
+            background-color: #3b82f6;
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            width: 100%;
+            border-top: 1px solid #1e293b;
+            padding-top: 20px;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #475569;
+        }
+        /* --- Footer Section --- */
+        footer {
+            background-color: #0f172a;
+            color: #94a3b8;
+            padding: 40px 20px 20px 20px;
+            margin-top: 60px;
+            border-top: 1px solid #1e293b;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            text-align: center;
+        }
+
+        /* تنسيق الشعار */
+        .footer-logo-img {
+            max-width: 150px; /* يمكنك تكبير أو تصغير الحجم من هنا */
+            height: auto;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+        }
+
+        .footer-desc {
+            font-size: 14px;
+            max-width: 600px;
+            color: #64748b;
+            line-height: 1.7;
+        }
+
+        .footer-bottom {
+            width: 100%;
+            border-top: 1px solid #1e293b;
+            padding-top: 20px;
+            margin-top: 10px;
+            font-size: 13px;
+            color: #475569;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo-link">
+            <img src="./logo.png" alt="ahmed_obd2" class="logo-img">
+        </a>
+    </header>
+
+    <!-- Hero Banner Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">دليلك الموثوق لتشخيص و<span>فحص الأعطال</span></h1>
+            <p class="hero-subtitle">
+                نختار لك أفضل أجهزة فحص الأعطال ومعدات الفحص الذكية بعناية. مراجعات دقيقة، روابط شراء مباشرة لأفضل الأسعار، وتوضيح كامل للمميزات قبل الشراء.
+            </p>
+            <div class="hero-badges">
+                <span class="badge"><i class="fa-solid fa-microchip"></i> أجهزة فحص OBD2</span>
+                <span class="badge"><i class="fa-solid fa-check-double"></i> روابط أصلية وموثوقة</span>
+                <span class="badge"><i class="fa-solid fa-bolt"></i> تحديثات مستمرة</span>
+            </div>
+        </div>
+    </section>
+
+    <main class="container">
+        <div class="products-grid">
+            
+            <!-- Xtool A30M start -->
+            <div class="product-card">
+                <img src="./img/a30m/a30m.avif" alt="XTOOL A30M" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">XTOOL A30M</h3>
+                    
+                    <p class="product-desc-main">أصغر جهاز فحص ذكي في العالم يحمل قوة ومواصفات أجهزة الورش الكبيرة! بوزن 115 جرام فقط وواجهة تشغيل سلسة على هاتفك، يمنحك تحكماً كاملاً وفحصاً عميقاً لجميع أنظمة السيارة بأقل تكلفة ممكنة.</p>
+                    
+                    <div class="extra-desc-container">
+                        <button class="btn-toggle-desc" onclick="toggleExtraDescription(this)">
+                            <i class="fa-solid fa-circle-info"></i>
+                            <span>عرض التفاصيل والوصف الكامل ▼</span>
+                        </button>
+                        
+                        <div class="product-desc-extra">
+                            <p><strong>ماذا يمكن لهذا الجهاز القوي أن يفعل لسيارتك؟</strong></p>
+                            <p>• <strong>فحص شامل وعميق لكل الأنظمة:</strong> يدعم الفحص الكامل لجميع أجزاء السيارة (المكمنة والكهربائية) وقراءة الرموز بدقة متناهية لضمان سلامة سيارتك بالكامل.</p>
+                            <p>• <strong>26 وظيفة إعادة ضبط وبرمجة (Reset):</strong> يوفر لك 26 خدمة صيانة مدمجة مثل إعادة ضبط الزيت، نظام مراقبة ضغط الإطارات (TPMS)، معايرة حساس الزاوية (SAS)، وغيرها الكثير دون الحاجة لأدوات إضافية مكلفة.</p>
+                            <p>• <strong>التحكم الثنائي واختبار الأجزاء النشطة (Bi-directional):</strong> يمنحك القدرة على إرسال أوامر مباشرة لأجزاء السيارة واختبارها في الوقت الفعلي (مثل تشغيل المراوح، النوافذ، أو الطرمبة) للتأكد من سلامتها وتسريع عملية الإصلاح.</p>
+                            <p>• <strong>تحديثات مجانية مدى الحياة:</strong> لن تدفع أي رسوم اشتراك سنوياً! استمتع بآخر تحديثات برمجية مجاناً للأبد لضمان توافق الجهاز مع الموديلات الحديثة مستقبلاً.</p>
+                            <p>• <strong>اتصال لاسلكي ودعم لجميع الهواتف:</strong> يعمل بسلاسة عبر البلوتوث مع هواتف الأندرويد (Android) والآيفون (iOS) لتفحص سيارتك وتتحرك بحرية من حولها.</p>
+                            <p>• <strong>التعرف الذكي والدعم المتطور:</strong> ميزة قراءة رقم الشاسيه تلقائياً (Auto VIN) لسرعة التعرف على نوع السيارة، مع دعم بروتوكولات الحديثة مثل CANFD و FCA للسيارات العصرية المتطورة.</p>
+                            <p>• <strong>تصميم مدمج وبطارية داخلية:</strong> بوزن 115 غرام فقط وأبعاد صغيرة جداً (10×14 سم) وبطارية مدمجة، يمكنك الاحتفاظ به في درج السيارة ليكون جاهزاً لإنقاذك في أي وقت وأي مكان.</p>                        </div>
+                    </div>
+                    
+                    <div class="card-actions">
+                        <div class="store-buttons">
+                            
+                            <!-- زر علي إكسبرس يستدعي ملف الـ svg الخاص بك -->
+                            <a href="https://s.click.aliexpress.com/e/_c3elN0uz" target="_blank" class="btn btn-aliexpress">
+                                <img src="./img/logos/aliexpress-icon.svg" alt="AliExpress" class="svg-icon">
+                                <span>علي إكسبرس</span>
+                            </a>
+                            
+                            <!-- زر تيمو يستدعي ملف الـ svg الخاص بك -->
+                            <a href="https://temu.to/k/e2wqjqi8yx0" target="_blank" class="btn btn-temu">
+                                <img src="./img/logos/temu.svg" alt="Temu" class="svg-icon">
+                                <span>تيمو</span>
+                            </a>
+
+                        </div>
+                        
+                        <div class="copy-wrapper">
+                            <button class="btn btn-copy-trigger" onclick="toggleDropdown(event, this)">
+                                <i class="fa-solid fa-share-nodes"></i> نسخ رابط المنتج...
+                            </button>
+                            
+                            <!-- استدعاء ملفات الـ svg أيضاً داخل القائمة المنسدلة للنسخ -->
+                            <div class="copy-dropdown">
+                                <button onclick="copyLink('https://s.click.aliexpress.com/e/_c3elN0uz', 'رابط علي إكسبرس')">
+                                    <img src="./img/logos/aliexpress-icon.svg" alt="AliExpress" class="svg-icon">
+                                    <span>نسخ رابط علي إكسبرس</span>
+                                </button>
+                                <button onclick="copyLink('https://temu.to/k/e2wqjqi8yx0', 'رابط تيمو')">
+                                    <img src="./img/logos/temu.svg" alt="Temu" class="svg-icon">
+                                    <span>نسخ رابط تيمو</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- A30m end -->
+
+            <!-- mucar 200bt max start -->
+            <div class="product-card">
+                <!-- ملاحظة: يفضل تغيير مسار الصورة لصورة جهاز mucar الصحيحة -->
+                <img src="./img/mucar 200bt max/mucar 200bt max.jpg" alt="mucar 200bt max" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">Mucar 200BT Max</h3>
+                    
+                    <p class="product-desc-main">**وداعاً لاشتراكات التجديد المزعجة!** احصل على قطعة الفحص الذكية Mucar 200bt Max واستمتع بفحص شامل لجميع أنظمة السيارة مع تفعيل مجاني **مدى الحياة** لبرامج جميع الماركات ووظائف إعادة الضبط الأساسية، مباشرة من جوالك عبر البلوتوث.</p>
+                    
+                    <div class="extra-desc-container">
+                        <button class="btn-toggle-desc" onclick="toggleExtraDescription(this)">
+                            <i class="fa-solid fa-circle-info"></i>
+                            <span>عرض المميزات الرهيبة والوصف الكامل ▼</span>
+                        </button>
+                        
+                        <div class="product-desc-extra">
+                            <p><strong>لماذا يعتبر Mucar 200bt Max الخيار الأذكى لك؟</strong></p>
+                            <p>• <strong>الاشتراك والتحديثات (مجاني مدى الحياة):</strong> نعم، قرأتها صحيحاً! عند شراء هذا الجهاز، ستحصل على **تفعيل مجاني مدى الحياة** لبرامج تشخيص جميع أنظمة السيارات المدعومة، بالإضافة إلى التحديثات المجانية لجميع وظائف إعادة الضبط الأساسية الـ 15. لا توجد رسوم سنوية مخفية، ادفع مرة واحدة واستخدمه للأبد.</p>
+                            <p>• <strong>فحص شامل وعميق لكل الأنظمة (OE-Level):</strong> لا يكتفي الجهاز بفحص المحرك فقط، بل يغوص في أعماق السيارة ليفحص جميع الكمبيوترات مثل: الجير، ABS، الإيرباج (SRS)، التكييف، نظام الجسم (BCM)، والمزيد بدقة مذهلة موازية للأجهزة الاحترافية.</p>
+                            <p>• <strong>15 وظيفة صيانة وإعادة ضبط أساسية:</strong> يتضمن الجهاز كافة الوظائف التي تحتاجها للصيانة الدورية مثل: إعادة ضبط الزيت، تنسيق دعسة البنزين (Throttle)، إعادة ضبط الفرامل الإلكترونية (EPB)، معايرة زاوية التوجيه (SAS)، وبرمجة البخاخات، وكلها **مفعلة مجاناً مدى الحياة**. </p>
+                            <p>• <strong>سهولة تامة في الاستخدام عبر البلوتوث 5.0:</strong> مجرد قطعة صغيرة تتصل بمنفذ OBD2 وتتشبك بهاتفك (Android أو iOS) عبر تطبيق Mucar الذكي، لتحول جوالك إلى محطة فحص متطورة في ثوانٍ.</p>
+                            <p>• <strong>قراءة ومسح الأعطال وتحليل البيانات الحيّة:</strong> اقرأ وافهم أكواد الأعطال (DTCs)، وامسحها بعد الإصلاح. كما يمكنك عرض بيانات السيارة الحيّة (Live Data) على شكل رسوم بيانية لفهم أداء المحرك والأنظمة المختلفة بشكل لحظي ودقيق.</p>
+                            <p>• <strong>تقرير فحص احترافي بنقرة واحدة:</strong> يولد الجهاز تقارير فحص صحية كاملة للسيارة بلمسة زر، يمكنك حفظها بتنسيق PDF ومشاركتها مع الميكانيكي أو الاحتفاظ بها كسجل لصيانة سيارتك.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card-actions">
+                        <div class="store-buttons">
+                            
+                            <!-- زر علي إكسبرس -->
+                            <a href="https://s.click.aliexpress.com/e/_c39eQt0f" target="_blank" class="btn btn-aliexpress">
+                                <img src="./img/logos/aliexpress-icon.svg" alt="AliExpress" class="svg-icon">
+                                <span>علي إكسبرس</span>
+                            </a>
+                            
+                        </div>
+                        
+                        <div class="copy-wrapper">
+                            <button class="btn btn-copy-trigger" onclick="toggleDropdown(event, this)">
+                                <i class="fa-solid fa-share-nodes"></i> نسخ رابط المنتج...
+                            </button>
+                            
+                            <div class="copy-dropdown">
+                                <button onclick="copyLink('https://s.click.aliexpress.com/e/_c39eQt0f', 'رابط علي إكسبرس')">
+                                    <img src="./img/logos/aliexpress-icon.svg" alt="AliExpress" class="svg-icon">
+                                    <span>نسخ رابط علي إكسبرس</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- mucar 200bt max end -->
+
+            <!-- thinkdiag 2 start -->
+            <div class="product-card">
+                <img src="./img/thinkdiag2/thinkdiag2.avif" alt="thinkdiag 2" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">ThinkDiag 2</h3>
+                    
+                    <p class="product-desc-main">أحد أقوى وأشهر أجهزة فحص السيارات الذكية المحمولة عالمياً! يتصل بهاتفك عبر البلوتوث ليدعم فحص جميع كمبيوترات وشبكات السيارة مع دعم أحدث بروتوكولات السرعة CAN-FD وبرمجة الأجزاء ووظائف التنسيق في كبسولة صريحة واحترافية.</p>
+                    
+                    <div class="extra-desc-container">
+                        <button class="btn-toggle-desc" onclick="toggleExtraDescription(this)">
+                            <i class="fa-solid fa-circle-info"></i>
+                            <span>عرض التفاصيل والوصف الكامل ▼</span>
+                        </button>
+                        
+                        <div class="product-desc-extra">
+                            <p><strong>ماذا يقدم لك جهاز ThinkDiag 2 الاحترافي؟</strong></p>
+                            <p>• <strong>دعم كامل لبروتوكول CAN-FD الحديث:</strong> يدعم الفحص المباشر والسريع لسيارات جنرال موتورز (GM، شيفروليه، كاديلاك، جي إم سي) الحديثة موديلات 2020+ بدون الحاجة لشراء محولات خارجية.</p>
+                            <p>• <strong>فحص شامل لكل الكمبيوترات والشاسيه (All System Diagnostics):</strong> قراءة ومسح أعطال المحرك، الجير، ABS، الإيرباج، BCM، وغيرها بدقة موازية لأجهزة الورش الضخمة.</p>
+                            <p>• <strong>15+ وظيفة صيانة وإعادة ضبط (Reset Functions):</strong> تشمل برمجة دعسة البنزين (Throttle)، إعادة ضبط الزيت، تجميع وتنسيق الفرامل الإلكترونية (EPB)، معايرة الزاوية (SAS)، وبرمجة البخاخات وغيرها.</p>
+                            <p>• <strong>التحكم الثنائي وتنشيط الأجزاء (Bi-Directional Control / Actuation Test):</strong> يمكنك اختبار القطع مباشرة من هاتفك (مثل تشغيل مروحة التبريد، طرمبة البنزين، أو فتح وإغلاق النوافذ) لتحديد العطل بدقة متناهية.</p>
+                            <p>• <strong>اتصال بلوتوث 5.0 مجاني ومباشر:</strong> نقل بيانات سريع وثابت أثناء الفحص المباشر وحفظ تقارير الفحص بصيغة PDF لمشاركتها بسهولة.</p>
+                            <p>• <strong>نظام الاشتراك والتحديثات:</strong> الجهاز يأتي مع <strong>سنة أولى مجانية بالكامل</strong> تشمل كافة البرامج، وبعد انتهاء السنة الأولى يصبح التحديث والخدمة مدفوعة باشتراك سنوي (99.95$ لجميع السيارات أو 39.95$ لماركة واحدة).</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card-actions">
+                        <div class="store-buttons">
+                            
+                            <!-- زر علي إكسبرس -->
+                            <a href="https://s.click.aliexpress.com/e/_c3tgZlvZ" target="_blank" class="btn btn-aliexpress">
+                                <img src="./img/logos/aliexpress-icon.svg" alt="AliExpress" class="svg-icon">
+                                <span>علي إكسبرس</span>
+                            </a>
+                            
+                        </div>
+                        
+                        <div class="copy-wrapper">
+                            <button class="btn btn-copy-trigger" onclick="toggleDropdown(event, this)">
+                                <i class="fa-solid fa-share-nodes"></i> نسخ رابط المنتج...
+                            </button>
+                            
+                            <div class="copy-dropdown">
+                                <button onclick="copyLink('https://s.click.aliexpress.com/e/_c3tgZlvZ', 'رابط علي إكسبرس')">
+                                    <img src="./img/logos/aliexpress-icon.svg" alt="AliExpress" class="svg-icon">
+                                    <span>نسخ رابط علي إكسبرس</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- thinkdiag 2 end -->
+
+            <!-- finrisi dmc 100 start -->
+            <div class="product-card">
+                <img src="./img/finrisi-dmc-100/fnirsi-dmc.jpg" alt="Finrisi DMC 100" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">Finrisi DMC 100</h3>
+                    
+                    <p class="product-desc-main">الجيل الجديد من أجهزة القياس الرقمية بشاشة ذكية فائقة الدقة 10,000 Counts! تميز عن الجميع مع هذا الكلمب ميتر (Clamp Meter) المتطور الذي يجمع بين دقة الفحص المتناهية والتشغيل الذكي ببطارية داخلية قابلة للشحن عبر USB، ليغنيك تماماً عن البطاريات التقليدية المزعجة في مواقع العمل.</p>
+                    
+                    <div class="extra-desc-container">
+                        <button class="btn-toggle-desc" onclick="toggleExtraDescription(this)">
+                            <i class="fa-solid fa-circle-info"></i>
+                            <span>عرض التفاصيل والوصف الكامل ▼</span>
+                        </button>
+                        
+                        <div class="product-desc-extra">
+                            <p><strong>ماذا يمكن لهذا الجهاز الاحترافي أن يفعل لك؟</strong></p>
+                            <p>• <strong>واجهة قياس فائقة الدقة (10000 Counts):</strong> يمنحك قراءات برقم رقمي دقيق جداً يصل إلى 10,000 وحدة قياس، مما يضمن لك أعلى درجات الدقة عند فحص التيارات المستمرة (DC) والمترددة (AC).</p>
+                            <p>• <strong>قوة قياس تصل إلى 600 أمبير (AC):</strong> مصمم لتحمل ومواجهة الدوائر الكهربائية ذات الأحمال العالية بكل سهولة، مما يجعله الأداة المثالية للاستخدامات الصناعية المعقدة أو الصيانة المنزلية.</p>
+                            <p>• <strong>تقنية TRMS للقياس الحقيقي والدقيق:</strong> بفضل تقنية True RMS، يعطيك الجهاز نتائج صحيحة بنسبة 100% للتيار المتردد حتى في البيئات المعقدة التي تحتوي على موجات مشوشة أو غير منتظمة.</p>
+                            <p>• <strong>متعدد الوظائف (جهاز شامل في يدك):</strong> لا يقيس الأمبير فقط! بل يقيس الجهد المتردد حتى 750 فولت، والجهد المستمر حتى 999.9 فولت، والمقاومة الكهبائية الضخمة حتى 99.99 ميجا أوم، ليكون جهاز آفوميتر متكامل للفحص الشامل.</p>
+                            <p>• <strong>بطارية داخلية قابلة للشحن عبر USB:</strong> يعمل ببطارية داخلية مدمجة يعاد شحنها عبر شاحن 5 فولت (USB)، ليوفر لك أداءً يدوم طويلاً ويوفر عليك تكلفة شراء وتغيير البطاريات الجافة بشكل مستمر.</p> 
+                        </div>
+                    </div>
+                    
+                    <div class="card-actions">
+                        <div class="store-buttons">
+                            
+                            <!-- زر علي إكسبرس يستدعي ملف الـ svg الخاص بك -->
+                            <a href="https://s.click.aliexpress.com/e/_c3PLYgmh" target="_blank" class="btn btn-aliexpress">
+                                <img src="./img/logos/aliexpress-icon.svg" alt="AliExpress" class="svg-icon">
+                                <span>علي إكسبرس</span>
+                            </a>
+                            
+                            <!-- زر تيمو يستدعي ملف الـ svg الخاص بك -->
+                            <a href="https://temu.to/k/e7zwjph6znv" target="_blank" class="btn btn-temu">
+                                <img src="./img/logos/temu.svg" alt="Temu" class="svg-icon">
+                                <span>تيمو</span>
+                            </a>
+
+                        </div>
+                        
+                        <div class="copy-wrapper">
+                            <button class="btn btn-copy-trigger" onclick="toggleDropdown(event, this)">
+                                <i class="fa-solid fa-share-nodes"></i> نسخ رابط المنتج...
+                            </button>
+                            
+                            <!-- استدعاء ملفات الـ svg أيضاً داخل القائمة المنسدلة للنسخ -->
+                            <div class="copy-dropdown">
+                                <button onclick="copyLink('https://s.click.aliexpress.com/e/_c2I1d4X7', 'رابط علي إكسبرس')">
+                                    <img src="./img/logos/aliexpress-icon.svg" alt="AliExpress" class="svg-icon">
+                                    <span>نسخ رابط علي إكسبرس</span>
+                                </button>
+                                <button onclick="copyLink('https://temu.to/k/e7zwjph6znv', 'رابط تيمو')">
+                                    <img src="./img/logos/temu.svg" alt="Temu" class="svg-icon">
+                                    <span>نسخ رابط تيمو</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- finrisi dmc 100 end -->
+
+
+        </div>
+    </main>
+
+<!-- Footer Section -->
+    <footer>
+        <div class="footer-container">
+            <!-- الشعار -->
+            <img src="./logo.png" alt="الشعار" class="footer-logo-img">
+            
+            <!-- الوصف -->
+            <p class="footer-desc">
+                منصة متخصصة في استعراض وتقييم أجهزة تشخيص أعطال السيارات ومعدات القياس. هدفنا مساعدتك في اختيار الأداة المناسبة لسيارتك بأفضل قيمة وأعلى جودة.
+            </p>
+
+            <!-- حقوق النشر -->
+            <div class="footer-bottom">
+                &copy; 2026 جميع الحقوق محفوظة.
+            </div>
+        </div>
+    </footer>
+    <div id="toast" class="toast">تم نسخ الرابط بنجاح!</div>
+
+
+    <script>
+        function toggleExtraDescription(button) {
+            const extraDesc = button.nextElementSibling;
+            const buttonText = button.querySelector('span');
+            
+            if (extraDesc.style.display === 'block') {
+                extraDesc.style.display = 'none';
+                buttonText.textContent = 'عرض التفاصيل والوصف الكامل ▼';
+            } else {
+                extraDesc.style.display = 'block';
+                buttonText.textContent = 'إخفاء التفاصيل والوصف الكامل ▲';
+            }
+        }
+
+        function toggleDropdown(event, button) {
+            event.stopPropagation();
+            const currentDropdown = button.nextElementSibling;
+            
+            document.querySelectorAll('.copy-dropdown').forEach(drop => {
+                if (drop !== currentDropdown) drop.style.display = 'none';
+            });
+            
+            if (currentDropdown.style.display === 'block') {
+                currentDropdown.style.display = 'none';
+            } else {
+                currentDropdown.style.display = 'block';
+            }
+        }
+
+        function copyLink(url, text) {
+            navigator.clipboard.writeText(url).then(() => {
+                const toast = document.getElementById('toast');
+                toast.textContent = `تم نسخ ${text} بنجاح!`;
+                toast.classList.add('show');
+                
+                document.querySelectorAll('.copy-dropdown').forEach(drop => drop.style.display = 'none');
+                
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 2500);
+            }).catch(err => {
+                console.error('فشل عملية النسخ: ', err);
+            });
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.closest('.btn-copy-trigger')) {
+                document.querySelectorAll('.copy-dropdown').forEach(drop => drop.style.display = 'none');
+            }
+        }
+    </script>
+</body>
+</html>
